@@ -64,7 +64,7 @@ const CommentForm = React.createClass({
     if (!text || !author) {
       return;
     }
-
+    this.props.onCommentSubmit({author: author, text: text});
     this.setState({
       'author': '',
       'text': ''
