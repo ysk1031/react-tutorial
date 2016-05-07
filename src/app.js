@@ -1,20 +1,22 @@
 import React from 'react';
 import { render } from 'react-dom';
 import marked from 'marked';
-import axios from 'axios';
-
-axios.defaults.baseURL = "http://0.0.0.0:4567";
+import request from 'superagent';
 
 const CommentBox = React.createClass({
   loadCommentsFromServer() {
-    axios.get(this.props.url)
-      .then((response) =>
-        this.setState({data: response.data}))
-      .catch((response) =>
-        console.error(this.props.url, response.status, response.statusText))
+    request
+      .get(this.props.url)
+      .end((error, response) =>
+        this.setState({data: JSON.parse(response.text)}));
   },
   handleCommentSubmit(comment) {
-
+    request
+      .post(this.props.url)
+      .send(comment)
+      .set('Content-Type', 'application/x-www-form-urlencoded')
+      .end((error, response) =>
+        this.setState({data: JSON.parse(response.text)}));
   },
   getInitialState() {
     return {data: []};
@@ -109,6 +111,6 @@ const Comment = React.createClass({
 });
 
 render(
-  <CommentBox url="/api/comments" pollInterval={2000} />,
+  <CommentBox url="http://localhost:4567/api/comments" pollInterval={2000} />,
   document.getElementById('container')
 );
