@@ -6,15 +6,19 @@ import axios from 'axios';
 axios.defaults.baseURL = "http://0.0.0.0:4567";
 
 const CommentBox = React.createClass({
-  getInitialState() {
-    return {data: []};
-  },
-  componentDidMount() {
+  loadCommentsFromServer() {
     axios.get(this.props.url)
       .then((response) =>
         this.setState({data: response.data}))
       .catch((response) =>
         console.error(this.props.url, response.status, response.statusText))
+  },
+  getInitialState() {
+    return {data: []};
+  },
+  componentDidMount() {
+    this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
   },
   render() {
     return (
@@ -65,6 +69,6 @@ const Comment = React.createClass({
 });
 
 render(
-  <CommentBox url="/api/comments" />,
+  <CommentBox url="/api/comments" pollInterval={2000} />,
   document.getElementById('container')
 );
