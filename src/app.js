@@ -2,6 +2,11 @@ import React from 'react';
 import { render } from 'react-dom';
 import marked from 'marked';
 
+let data = [
+  {id: 1, author: "Peter Hunt", text: "This is one comment"},
+  {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
+];
+
 const CommentBox = React.createClass({
   render() {
     return (
