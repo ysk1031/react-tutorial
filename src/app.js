@@ -1,10 +1,20 @@
 import React from 'react';
 import { render } from 'react-dom';
 import marked from 'marked';
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://0.0.0.0:4567";
 
 const CommentBox = React.createClass({
   getInitialState() {
     return {data: []};
+  },
+  componentDidMount() {
+    axios.get(this.props.url)
+      .then((response) =>
+        this.setState({data: response.data}))
+      .catch((response) =>
+        console.error(this.props.url, response.status, response.statusText))
   },
   render() {
     return (

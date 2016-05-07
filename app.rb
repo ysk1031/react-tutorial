@@ -2,7 +2,8 @@ require 'sinatra'
 require 'json'
 
 get '/api/comments' do
-  [
+  headers 'Access-Control-Allow-Origin' => '*'
+  body [
     { id: 1,
       author: "Peter Hunt",
       text: "This is one comment"

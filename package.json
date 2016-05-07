@@ -19,6 +19,7 @@
     "watchify": "^3.7.0"
   },
   "dependencies": {
+    "axios": "^0.11.0",
     "marked": "^0.3.5",
     "react": "^15.0.2",
     "react-dom": "^15.0.2"
