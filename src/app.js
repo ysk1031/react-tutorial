@@ -13,6 +13,9 @@ const CommentBox = React.createClass({
       .catch((response) =>
         console.error(this.props.url, response.status, response.statusText))
   },
+  handleCommentSubmit(comment) {
+
+  },
   getInitialState() {
     return {data: []};
   },
@@ -25,7 +28,7 @@ const CommentBox = React.createClass({
       <div className="commentBox">
         <h1>Comments</h1>
         <CommentList data={this.state.data} />
-        <CommentForm />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>
     );
   }
