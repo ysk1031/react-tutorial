@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import marked from 'marked';
 
 const CommentBox = React.createClass({
   render() {
@@ -41,7 +42,7 @@ const Comment = React.createClass({
         <h2 className="commentAuthor">
           {this.props.author}
         </h2>
-        {this.props.children}
+        {marked(this.props.children.toString())}
       </div>
     )
   }
