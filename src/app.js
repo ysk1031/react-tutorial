@@ -54,9 +54,22 @@ const CommentForm = React.createClass({
   handleTextChange(e) {
     this.setState({text: e.target.value});
   },
+  handleSubmit(e) {
+    e.preventDefault();
+    const author = this.state.author.trim();
+    const text = this.state.text.trim();
+    if (!text || !author) {
+      return;
+    }
+
+    this.setState({
+      'author': '',
+      'text': ''
+    });
+  },
   render() {
     return (
-      <form className="commentForm">
+      <form className="commentForm" onSubmit={this.handleSubmit}>
         <input
           type="text"
           placeholder="Your name"
