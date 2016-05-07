@@ -11,12 +11,22 @@ const CommentBox = React.createClass({
         this.setState({data: JSON.parse(response.text)}));
   },
   handleCommentSubmit(comment) {
+    const comments = this.state.data;
+    comment.id = Date.now();
+    const newComments = [...comments, comment];
+    this.setState({data: newComments});
+
     request
       .post(this.props.url)
       .send(comment)
       .set('Content-Type', 'application/x-www-form-urlencoded')
-      .end((error, response) =>
-        this.setState({data: JSON.parse(response.text)}));
+      .end((error, response) => {
+        if (error !== null) {
+          this.setState({data: comments});
+        } else {
+          this.setState({data: JSON.parse(response.text)});
+        }
+      });
   },
   getInitialState() {
     return {data: []};
