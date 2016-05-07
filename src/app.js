@@ -21,11 +21,10 @@ const CommentBox = React.createClass({
 
 const CommentList = React.createClass({
   render() {
+    const commentNodes = this.props.data.map((comment) =>
+      <Comment author={comment.author} key={comment.id}>{comment.text}</Comment>);
     return (
-      <div className="commentList">
-        <Comment author="Pete Hunt">This is one comment</Comment>
-        <Comment author="Jordan Walke">This is *another* comment</Comment>
-      </div>
+      <div className="commentList">{commentNodes}</div>
     );
   }
 });
