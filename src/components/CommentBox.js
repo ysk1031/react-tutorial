@@ -3,13 +3,20 @@ import request from 'superagent';
 import CommentList from './CommentList';
 import CommentForm from './CommentForm';
 
-const CommentBox = React.createClass({
-  loadCommentsFromServer() {
+export default class CommentBox extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {data: []};
+
+    this.loadCommentsFromServer = this.loadCommentsFromServer.bind(this);
+    this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
+  }
+  loadCommentsFromServer () {
     request
       .get(this.props.url)
       .end((error, response) =>
         this.setState({data: JSON.parse(response.text)}));
-  },
+  }
   handleCommentSubmit(comment) {
     const comments = this.state.data;
     comment.id = Date.now();
@@ -27,14 +34,11 @@ const CommentBox = React.createClass({
           this.setState({data: JSON.parse(response.text)});
         }
       });
-  },
-  getInitialState() {
-    return {data: []};
-  },
+  }
   componentDidMount() {
     this.loadCommentsFromServer();
     setInterval(this.loadCommentsFromServer, this.props.pollInterval);
-  },
+  }
   render() {
     return (
       <div className="commentBox">
@@ -44,6 +48,4 @@ const CommentBox = React.createClass({
       </div>
     );
   }
-});
-
-export default CommentBox;
+}
