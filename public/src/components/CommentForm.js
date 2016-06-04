@@ -3,33 +3,26 @@ import React from 'react';
 export default class CommentForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      'author': '',
-      'text': ''
-    };
 
     this.handleAuthorChange = this.handleAuthorChange.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleAuthorChange(e) {
-    this.setState({author: e.target.value});
+    this.props.inputAuthor(e.target.value);
   }
   handleTextChange(e) {
-    this.setState({text: e.target.value});
+    this.props.inputText(e.target.value);
   }
   handleSubmit(e) {
     e.preventDefault();
-    const author = this.state.author.trim();
-    const text = this.state.text.trim();
+    const author = this.props.inputParams.author.trim();
+    const text = this.props.inputParams.text.trim();
     if (!text || !author) {
       return;
     }
     this.props.onCommentSubmit({author: author, text: text});
-    this.setState({
-      'author': '',
-      'text': ''
-    });
+    this.props.clearInputForm();
   }
   render() {
     return (
@@ -37,13 +30,13 @@ export default class CommentForm extends React.Component {
         <input
           type="text"
           placeholder="Your name"
-          value={this.state.author}
+          value={this.props.inputParams.author}
           onChange={this.handleAuthorChange}
         />
         <input
           type="text"
           placeholder="Say something..."
-          value={this.state.text}
+          value={this.props.inputParams.text}
           onChange={this.handleTextChange}
         />
         <input type="submit" value="Post" />

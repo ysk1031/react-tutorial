@@ -1,6 +1,5 @@
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as commentActions from '../actions';
+import { setComments } from '../actions';
 import CommentBox from '../components/CommentBox';
 
 const mapStateToProps = (state) => {
@@ -12,7 +11,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(commentActions, dispatch);
+  return { setComments: (comments) =>
+    dispatch(setComments(comments))
+  };
 };
 
 const SetComments = connect(
