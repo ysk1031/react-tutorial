@@ -6,8 +6,7 @@ import CommentForm from './CommentForm';
 export default class CommentBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {data: []};
-
+    
     this.loadCommentsFromServer = this.loadCommentsFromServer.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
   }
@@ -15,13 +14,13 @@ export default class CommentBox extends React.Component {
     request
       .get(this.props.url)
       .end((error, response) =>
-        this.setState({data: JSON.parse(response.text)}));
+        this.props.setComments(JSON.parse(response.text)));
   }
   handleCommentSubmit(comment) {
-    const comments = this.state.data;
+    const comments = this.props.comments;
     comment.id = Date.now();
     const newComments = [...comments, comment];
-    this.setState({data: newComments});
+    this.props.setComments(newComments);
 
     request
       .post(this.props.url)
@@ -29,9 +28,9 @@ export default class CommentBox extends React.Component {
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .end((error, response) => {
         if (error !== null) {
-          this.setState({data: comments});
+          this.props.setComments(comments);
         } else {
-          this.setState({data: JSON.parse(response.text)});
+          this.props.setComments(JSON.parse(response.text));
         }
       });
   }
@@ -43,7 +42,7 @@ export default class CommentBox extends React.Component {
     return (
       <div className="commentBox">
         <h1>Comments</h1>
-        <CommentList data={this.state.data} />
+        <CommentList data={this.props.comments} />
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>
     );
