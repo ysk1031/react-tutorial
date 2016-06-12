@@ -2,11 +2,16 @@ import React from 'react';
 import { render } from 'react-dom';
 import App from './components/app';
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import createLogger from 'redux-logger';
 import commentReducer from './reducers';
 import { Provider } from 'react-redux';
 
-let store = createStore(commentReducer);
+const logger = createLogger();
+const store = createStore(
+  commentReducer,
+  applyMiddleware(logger)
+);
 
 render(
   <Provider store={store}>
